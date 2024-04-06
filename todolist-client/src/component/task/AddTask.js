@@ -5,13 +5,12 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 
-
 const AddTask = () => {
     let navigate = useNavigate();
     const[task, setTask] = useState({
         name : '',
         description : '',
-        status: true
+        status: false
     })
     const{name, description, status} = task;
 
@@ -77,9 +76,9 @@ const AddTask = () => {
 						type="checkbox"
 						name="status"
 						id="status"
-						required
-						value={status}
-						onChange={(e) => handleInputChange(e)}
+						checked={status}
+						values={status}
+						onChange={() => setTask(task=> ({...task, status: !task.status}))}
 					/>
 				</div>
 				<div className="row mb-5">
