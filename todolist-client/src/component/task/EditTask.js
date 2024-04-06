@@ -1,37 +1,59 @@
-import { useState } from "react";
+import React, {
+	useEffect,
+	useState,
+} from "react";
+import axios from "axios";
+
 import {
 	Link,
 	useNavigate,
+	useParams,
 } from "react-router-dom";
-import axios from "axios";
 
-const AddTask = () => {
-    let navigate = useNavigate();
+const EditStudent = () => {
+	let navigate = useNavigate();
+
+	const { id } = useParams();
+
     const[task, setTask] = useState({
         name : '',
         description : '',
         status: false
     })
+
     const{name, description, status} = task;
 
-    const handleInputChange = (e)=>{
-        setTask({...task, [e.target.name] : e.target.value});
-    }
+	useEffect(() => {
+		loadTask();
+	}, []);
 
-    const saveTask = async (e) => {
+	const loadTask = async () => {
+		const result = await axios.get(
+			`http://localhost:9192/tasks/${id}`
+		);
+		setTask(result.data);
+	};
+
+	const handleInputChange = (e) => {
+		setTask({
+			...task,
+			[e.target.name]: e.target.value,
+		});
+	};
+	const updateTask = async (e) => {
 		e.preventDefault();
-		await axios.post(
-			"http://localhost:9192/tasks",
+		await axios.put(
+			`http://localhost:9192/tasks/update/${id}`,
 			task
 		);
 		navigate("/view-tasks");
 	};
 
-  return (
-    <div className="col-sm-8 py-2 px-5 offset-2 shadow">
-			<h2 className="mt-5"> Add a new Task</h2>
-			<form onSubmit={(e) => saveTask(e)}>
-				<div className="input-group mb-5">
+	return (
+		<div className="col-sm-8 py-2 px-5 offset-2 shadow">
+			<h2 className="mt-5"> Edit Task</h2>
+			<form onSubmit={(e) => updateTask(e)}>
+            <div className="input-group mb-5">
 					<label
 						className="input-group-text"
 						htmlFor="name">
@@ -76,11 +98,12 @@ const AddTask = () => {
 						type="checkbox"
 						name="status"
 						id="status"
-						checked={status}
-						values={status}
+						checked={status.toString() === 'true' ? true : false}
+						values={status.toString()}
 						onChange={() => setTask(task=> ({...task, status: !task.status}))}
 					/>
 				</div>
+
 				<div className="row mb-5">
 					<div className="col-sm-2">
 						<button
@@ -101,7 +124,7 @@ const AddTask = () => {
 				</div>
 			</form>
 		</div>
-  );
+	);
 };
 
-export default AddTask
+export default EditStudent;

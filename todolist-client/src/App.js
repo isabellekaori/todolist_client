@@ -1,7 +1,6 @@
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import "/node_modules/bootstrap/dist/js/bootstrap.min.js"
 import './App.css';
-import Home from './Home';
 import TaskView from './component/task/TaskView';
 import NavBar from "./component/common/NavBar";
 import {
@@ -10,6 +9,9 @@ import {
 	Route,
 } from "react-router-dom";
 import AddTask from "./component/task/AddTask";
+import EditTask from "./component/task/EditTask";
+import TaskDetails from "./component/task/TaskDetails";
+
 
 function App() {
   return (
@@ -20,12 +22,20 @@ function App() {
 					<Route
 						exact
 						path="/"
-						element={<Home />}></Route>
+						element={<AddTask />}></Route>
 					<Route
 						exact
 						path="/view-tasks"
 						element={<TaskView />}></Route>
-          <Route
+					<Route
+						exact
+						path="/edit-task/:id"
+						element={<EditTask />}></Route>
+					<Route
+						exact
+						path="/details-task/:id"
+						element={<TaskDetails />}></Route>
+          			<Route
 						exact
 						path="/add-tasks"
 						element={<AddTask />}></Route>
