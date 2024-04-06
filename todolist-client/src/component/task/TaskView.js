@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 const TaskView = () => {
   const[tasks, setTasks] = useState([]);  
@@ -50,16 +51,18 @@ const handleDelete = async (id) => {
                 <td>{task.description}</td>
                 <td>{task.status}</td>
                 <td className='mx-2'>
-                  <button
+                  <Link
+                    to={`/details-task/${task.id}`}
                     className='btn btn-info'>
                     View
-                  </button>
+                  </Link>
                   </td>
                 <td className='mx-2'>
-                  <button
+                  <Link
+                    to={`/edit-task/${task.id}`}
                     className='btn btn-warning'>
                     Update
-                  </button>
+									</Link>
                   </td>
                 <td className='mx-2'>
                   <button
